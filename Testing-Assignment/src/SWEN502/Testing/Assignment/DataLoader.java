@@ -19,11 +19,11 @@ public class DataLoader {
 	
 	private ArrayList<Player> playerlist;
 
-	public void load() throws Exception {
+	public void loadXMLData(File xmlfile) throws Exception {
 		
 		playerlist = new ArrayList<>();
 		
-		File xmlfile = new File("premierLeaguePlayerNames.xml");
+		//File xmlfile = new File("premierLeaguePlayerNames.xml");
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -47,10 +47,7 @@ public class DataLoader {
 		}
 		
 	}
-	
-	public void updateXML() {
-		
-	}
+
 	
 	public void saveNewXML() throws Exception{
 		
@@ -114,6 +111,10 @@ public class DataLoader {
 		}
 	}
 	
+	public ArrayList<Player> getPlayerList(){
+		return this.playerlist;
+	}
+	
 	public void addPlayer() {
 		Scanner scan = new Scanner(System.in);
 		String input = "";
@@ -156,10 +157,10 @@ public class DataLoader {
 	}
 	
 	public DataLoader() throws Exception {
-		load();
-		addPlayer();
-		printAllPlayers();
-		saveNewXML();
+		//loadXMLData(new File("premierLeaguePlayerNames.xml"));
+		//addPlayer();
+		//printAllPlayers();
+		//saveNewXML();
 	}
 
 	public static void main(String[] args) throws Exception {

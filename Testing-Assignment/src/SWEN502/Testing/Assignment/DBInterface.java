@@ -57,6 +57,7 @@ public class DBInterface {
 			
 			while(rs.next()){
 				System.out.print("\n");
+				System.out.println("ID: " + rs.getInt("players.id"));
 				System.out.println("Name: " + rs.getString("players.name"));
 				System.out.println("Age: " + rs.getInt("players.age"));
 				System.out.println("Club: " + rs.getString("players.club"));
@@ -73,19 +74,23 @@ public class DBInterface {
 		}
 	}
 	
+	public void deletePlayer() {
+		
+	}
+	
 	public DBInterface() {
 			
-		openDB();
+		//openDB();
 		
-		ArrayList<Player> players = new ArrayList<>();
+		//ArrayList<Player> players = new ArrayList<>();
 		// String name, String nation, String club, int age, String position, double market_value
-		players.add( new Player( "bob", "bobs burgers", "USA", 12345, "GK", 12.0 ) );
+		//players.add( new Player( "bob", "bobs burgers", "USA", 12345, "GK", 12.0 ) );
 		
-		saveToDB(players);
+		//saveToDB(players);
 		
-		readDB();
+		//readDB();
 		
-		closeDB();
+		//closeDB();
 			
 			
 	}
