@@ -187,12 +187,12 @@ public class DBInterface {
 
 				PreparedStatement preparedStmt = con.prepareStatement(query);
 				
-				preparedStmt.setString	( 1, p.getName()		);
-				preparedStmt.setInt		( 2, p.getAge()			);
-				preparedStmt.setString	( 3, p.getClub()		);
-				preparedStmt.setString	( 4, p.getNation()		);
-				preparedStmt.setString	( 5, p.getPosition()	);
-				preparedStmt.setDouble	( 6, p.getMarketValue()	);
+				preparedStmt.setString(1, p.getName());
+				preparedStmt.setInt(2, p.getAge());
+				preparedStmt.setString(3, p.getClub());
+				preparedStmt.setString(4, p.getNation());
+				preparedStmt.setString(5, p.getPosition());
+				preparedStmt.setDouble(6, p.getMarketValue());
 				preparedStmt.execute();
 
 				stmt.close();
