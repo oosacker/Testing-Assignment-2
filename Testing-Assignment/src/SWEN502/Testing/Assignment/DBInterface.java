@@ -79,7 +79,7 @@ public class DBInterface {
 		
 		ArrayList<Player> players = new ArrayList<>();
 		// String name, String nation, String club, int age, String position, double market_value
-		players.add( new Player( "test player", "poopoo", "west brom", 12345, "GK", 12.0 ) );
+		players.add( new Player( "bob", "bobs burgers", "USA", 12345, "GK", 12.0 ) );
 		
 		saveToDB(players);
 		
