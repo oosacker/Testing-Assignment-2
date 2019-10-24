@@ -3,6 +3,7 @@ package SWEN502.Testing.Assignment;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -104,19 +105,36 @@ public class DBInterface {
 				
 				stmt = con.createStatement();
 				
-				String sql = "INSERT INTO `nats`.`players` (`name`, `age`, `club`, `nationality`, `position`, `market_value`) "
-						+ "VALUES ('"
-						+ p.getName() + "','" 
-						+ p.getAge() + "','" 
-						+ p.getClub() + "','" 
-						+ p.getNation() + "','" 
-						+ p.getPosition() + "','" 
-						+ p.getMarketValue()
-						+ "');";
 				
-				System.out.println(sql);
+				 // the mysql insert statement
+			      String query = "INSERT INTO `nats`.`players` (`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
+			        + " values (?, ?, ?, ?, ?)";
+
+			      // create the mysql insert preparedstatement
+			      PreparedStatement preparedStmt = con.prepareStatement(query);
+			      preparedStmt.setString(1, p.getName());
+			      preparedStmt.setInt(2, p.getAge());
+			      preparedStmt.setString(3, p.getClub());
+			      preparedStmt.setString(4, p.getNation());
+			      preparedStmt.setString(5, p.getPosition());
+			      preparedStmt.setDouble(6, p.getMarketValue());
+
+			      preparedStmt.execute();
 				
-				int rs = stmt.executeUpdate(sql);
+				
+//				String sql = "INSERT INTO `nats`.`players` (`name`, `age`, `club`, `nationality`, `position`, `market_value`) "
+//						+ "VALUES ('"
+//						+ p.getName() + "','" 
+//						+ p.getAge() + "','" 
+//						+ p.getClub() + "','" 
+//						+ p.getNation() + "','" 
+//						+ p.getPosition() + "','" 
+//						+ p.getMarketValue()
+//						+ "');";
+//				
+//				System.out.println(sql);
+//				
+//				int rs = stmt.executeUpdate(sql);
 				
 				
 				
