@@ -44,7 +44,8 @@ public class DataLoader {
 				int age = Integer.parseInt(e.getElementsByTagName("age").item(0).getTextContent());
 				String nation = e.getElementsByTagName("nationality").item(0).getTextContent();
 
-				Player newplayer = new Player(name, nation, club, age, pos, value);
+				////`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
+				Player newplayer = new Player(name, age, club, nation, pos, value);
 				playerlist.add(newplayer);
 			}
 		}
@@ -155,11 +156,12 @@ public class DataLoader {
 				System.out.println("Market value?");
 		        String value_str = scan.nextLine();
 		        
+		        ////`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
 		        Player newPlayer = new Player(
 		        		name_str, 
-		        		nation_str, 
-		        		club_str, 
 		        		Integer.parseInt(age_str), 
+		        		club_str, 
+		        		nation_str, 
 		        		pos_str.toUpperCase(), 
 		        		Double.parseDouble(value_str)); 
 		        

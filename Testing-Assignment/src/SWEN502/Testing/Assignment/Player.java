@@ -9,7 +9,8 @@ public class Player {
 	private String position;
 	private double market_value;
 	
-	public Player(String name, String nation, String club, int age, String position, double market_value) {
+	//`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
+	public Player(String name, int age, String club, String nation, String position, double market_value) {
 		super();
 		this.name = name;
 		this.nation = nation;
@@ -70,7 +71,7 @@ public class Player {
 	@Override
 	public String toString() {
 		return "\nName: " + name + "\nNation: " + nation + "\nClub: " + club + "\nAge: " + age + "\nPosition: "
-				+ position + "\nMarket value: £"+ market_value +"M";
+				+ position + "\nMarket value: £"+ market_value +"M\n";
 	}
 
 

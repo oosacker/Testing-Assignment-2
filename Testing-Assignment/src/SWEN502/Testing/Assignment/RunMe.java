@@ -19,6 +19,7 @@ public class RunMe {
 		//System.out.println(myPlayerList.size());
 		dbInterface = new DBInterface();
 		dbInterface.openDB();
+		dbInterface.deleteAllPlayers();
 		dbInterface.saveToDB(myPlayerList);
 		dbInterface.readDB();
 		dbInterface.closeDB();
