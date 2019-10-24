@@ -19,93 +19,104 @@ public class DataLoader {
 	
 	private ArrayList<Player> playerlist;
 
-	public void loadXMLData(File xmlfile) throws Exception {
+	public void loadXMLData(File xmlfile) {
 		
-		playerlist = new ArrayList<>();
-		
-		//File xmlfile = new File("premierLeaguePlayerNames.xml");
-		
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		
-		Document doc = db.parse(xmlfile);
-		NodeList mylist = doc.getElementsByTagName("row");
-		
-		for(int i=0; i<mylist.getLength(); i++) {
-			Node n = mylist.item(i);
-			Element e = (Element)n;
+		try {
 
-			String name = e.getElementsByTagName("name").item(0).getTextContent();
-			String club = e.getElementsByTagName("club").item(0).getTextContent();
-			double value =  Double.parseDouble(e.getElementsByTagName("market_value").item(0).getTextContent());
-			String pos = e.getElementsByTagName("position").item(0).getTextContent();
-			int age = Integer.parseInt(e.getElementsByTagName("age").item(0).getTextContent());
-			String nation = e.getElementsByTagName("nationality").item(0).getTextContent();
+			playerlist = new ArrayList<>();
 
-			Player newplayer = new Player(name, nation, club, age, pos, value);
-			playerlist.add(newplayer);
+			//File xmlfile = new File("premierLeaguePlayerNames.xml");
+
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+
+			Document doc = db.parse(xmlfile);
+			NodeList mylist = doc.getElementsByTagName("row");
+
+			for(int i=0; i<mylist.getLength(); i++) {
+				Node n = mylist.item(i);
+				Element e = (Element)n;
+
+				String name = e.getElementsByTagName("name").item(0).getTextContent();
+				String club = e.getElementsByTagName("club").item(0).getTextContent();
+				double value =  Double.parseDouble(e.getElementsByTagName("market_value").item(0).getTextContent());
+				String pos = e.getElementsByTagName("position").item(0).getTextContent();
+				int age = Integer.parseInt(e.getElementsByTagName("age").item(0).getTextContent());
+				String nation = e.getElementsByTagName("nationality").item(0).getTextContent();
+
+				Player newplayer = new Player(name, nation, club, age, pos, value);
+				playerlist.add(newplayer);
+			}
+		}
+		
+		catch(Exception ex){
+			// check for errors in XML file here -- need to do for each attribute!!!!!!
 		}
 		
 	}
 
 	
-	public void saveNewXML() throws Exception{
+	public void saveNewXML() {
 		
-		DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = df.newDocumentBuilder();
+		try {
+			DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = df.newDocumentBuilder();
 
-        Document doc = db.newDocument();
+			Document doc = db.newDocument();
 
-        Element root = doc.createElement("root");
-        doc.appendChild(root);
+			Element root = doc.createElement("root");
+			doc.appendChild(root);
 
-        Element row = doc.createElement("row");
-        root.appendChild(row);
+			Element row = doc.createElement("row");
+			root.appendChild(row);
 
-        for(Player p : playerlist) {
-        	
-        	Element playerName = doc.createElement("name");
-            playerName.appendChild(doc.createTextNode( p.getName()) );
-            root.appendChild(playerName);
-            
-            
-        	Element playerClub = doc.createElement("club");
-        	playerClub.appendChild(doc.createTextNode( p.getClub()) );
-            root.appendChild(playerClub);
-            
-        	Element playerAge = doc.createElement("age");
-        	playerAge.appendChild(doc.createTextNode( Integer.toString(p.getAge())) );
-            root.appendChild(playerAge);
-            
-        	Element playerPos = doc.createElement("position");
-        	playerPos.appendChild(doc.createTextNode( p.getPosition()) );
-            root.appendChild(playerAge);
-            
-        	Element playerMarketVal = doc.createElement("market_value");
-        	playerMarketVal.appendChild(doc.createTextNode( Double.toString(p.getMarketValue())) );
-            root.appendChild(playerMarketVal);
-            
-        	Element playerNation = doc.createElement("nationality");
-        	playerNation.appendChild(doc.createTextNode( p.getNation()) );
-            root.appendChild(playerNation);
-            
-            
-        }
-        
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        
-        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        
-        DOMSource domSource = new DOMSource(doc);
-        StreamResult streamResult = new StreamResult(new File("myPlayerList.xml"));
+			for(Player p : playerlist) {
 
-        transformer.transform(domSource, streamResult);
-   
+				Element playerName = doc.createElement("name");
+				playerName.appendChild(doc.createTextNode( p.getName()) );
+				root.appendChild(playerName);
+
+
+				Element playerClub = doc.createElement("club");
+				playerClub.appendChild(doc.createTextNode( p.getClub()) );
+				root.appendChild(playerClub);
+
+				Element playerAge = doc.createElement("age");
+				playerAge.appendChild(doc.createTextNode( Integer.toString(p.getAge())) );
+				root.appendChild(playerAge);
+
+				Element playerPos = doc.createElement("position");
+				playerPos.appendChild(doc.createTextNode( p.getPosition()) );
+				root.appendChild(playerAge);
+
+				Element playerMarketVal = doc.createElement("market_value");
+				playerMarketVal.appendChild(doc.createTextNode( Double.toString(p.getMarketValue())) );
+				root.appendChild(playerMarketVal);
+
+				Element playerNation = doc.createElement("nationality");
+				playerNation.appendChild(doc.createTextNode( p.getNation()) );
+				root.appendChild(playerNation);
+
+			}
+
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+			DOMSource domSource = new DOMSource(doc);
+			StreamResult streamResult = new StreamResult(new File("myPlayerList.xml"));
+
+			transformer.transform(domSource, streamResult);
+		}
+		catch(Exception ex) {
+			System.out.println("Error saving new XML file");
+			ex.printStackTrace();
+		}
 	}
 	
-	public void printAllPlayers() {
+	public void printAll() {
 		for(Player p : playerlist) {
 			System.out.println(p.toString());
 		}
@@ -144,7 +155,14 @@ public class DataLoader {
 				System.out.println("Market value?");
 		        String value_str = scan.nextLine();
 		        
-		        Player newPlayer = new Player(name_str, nation_str, club_str, Integer.parseInt(age_str), pos_str.toUpperCase(), Double.parseDouble(value_str)); 
+		        Player newPlayer = new Player(
+		        		name_str, 
+		        		nation_str, 
+		        		club_str, 
+		        		Integer.parseInt(age_str), 
+		        		pos_str.toUpperCase(), 
+		        		Double.parseDouble(value_str)); 
+		        
 				playerlist.add(newPlayer);				
 		        
 			}
