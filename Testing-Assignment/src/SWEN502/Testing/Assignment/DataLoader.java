@@ -1,17 +1,22 @@
 package SWEN502.Testing.Assignment;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.parsers.DocumentBuilder;
+
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,6 +25,14 @@ public class DataLoader {
 	private ArrayList<Player> playerlist;
 
 	public void loadXMLData(File xmlfile) {
+		
+		// default values
+		String name = "Unknown Player";
+		String club = "Unknown Club";
+		int age = 0;
+		double value = 0.0;
+		String pos = "Unknown Position";
+		String nation = "Unknown Nationality";
 		
 		try {
 
@@ -31,27 +44,35 @@ public class DataLoader {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 
 			Document doc = db.parse(xmlfile);
+			
 			NodeList mylist = doc.getElementsByTagName("row");
 
 			for(int i=0; i<mylist.getLength(); i++) {
 				Node n = mylist.item(i);
 				Element e = (Element)n;
 
-				String name = e.getElementsByTagName("name").item(0).getTextContent();
-				String club = e.getElementsByTagName("club").item(0).getTextContent();
-				double value =  Double.parseDouble(e.getElementsByTagName("market_value").item(0).getTextContent());
-				String pos = e.getElementsByTagName("position").item(0).getTextContent();
-				int age = Integer.parseInt(e.getElementsByTagName("age").item(0).getTextContent());
-				String nation = e.getElementsByTagName("nationality").item(0).getTextContent();
+				name = e.getElementsByTagName("name").item(0).getTextContent();
+				club = e.getElementsByTagName("club").item(0).getTextContent();
+				value =  Double.parseDouble(e.getElementsByTagName("market_value").item(0).getTextContent());
+				pos = e.getElementsByTagName("position").item(0).getTextContent();
+				age = Integer.parseInt(e.getElementsByTagName("age").item(0).getTextContent());
+				nation = e.getElementsByTagName("nationality").item(0).getTextContent();
 
-				////`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
 				Player newplayer = new Player(name, age, club, nation, pos, value);
 				playerlist.add(newplayer);
 			}
 		}
-		
-		catch(Exception ex){
-			// check for errors in XML file here -- need to do for each attribute!!!!!!
+		catch(SAXException e) {
+			System.out.println("sax error");
+		}
+		catch(IOException e) {
+			System.out.println("io error");
+		}
+		catch(ParserConfigurationException e) {
+			System.out.println("parser error");
+		}
+		catch(DOMException ex){
+			System.out.println("dom error");
 		}
 		
 	}
@@ -121,6 +142,7 @@ public class DataLoader {
 		for(Player p : playerlist) {
 			System.out.println(p.toString());
 		}
+		System.out.println("Number of players: "+playerlist.size());
 	}
 	
 	public ArrayList<Player> getPlayerList(){
@@ -131,6 +153,14 @@ public class DataLoader {
 		Scanner scan = new Scanner(System.in);
 		String input = "";
 		
+		// default values
+		String name_str = "Unknown Player";
+		int player_age = 0;
+		String club_str = "Unknown Club";
+		String nation_str = "Unknown Nation";
+		String pos_str = "Unknown Position";
+		double player_value = 0.0;
+		
 		while(true) {
 			
 			System.out.println("Add new player? (Y/N)");
@@ -139,31 +169,36 @@ public class DataLoader {
 			if(input.equalsIgnoreCase("y")) {
 				
 				System.out.println("Name?");
-				String name_str = scan.nextLine();
+				name_str = scan.nextLine();
 				
-				System.out.println("Age?");
-		        String age_str = scan.nextLine();
+				try {
+					System.out.println("Age?");
+					String age_str = scan.nextLine();
+					player_age = Integer.parseInt(age_str);
+				}
+				catch(NumberFormatException ex) {
+					System.out.println("Invalid age");
+				}
 		        
 				System.out.println("Club?");
-		        String club_str = scan.nextLine();
+		        club_str = scan.nextLine();
 		        
 				System.out.println("Nation?");
-		        String nation_str = scan.nextLine();
+		        nation_str = scan.nextLine();
 		        
 				System.out.println("Position?");
-		        String pos_str = scan.nextLine();
+		        pos_str = scan.nextLine();
 		        
-				System.out.println("Market value?");
-		        String value_str = scan.nextLine();
+		        try {
+		        	System.out.println("Market value?");
+		        	String value_str = scan.nextLine();
+		        	player_value = Double.parseDouble(value_str);
+		        }
+		        catch(NumberFormatException ex) {
+		        	System.out.println("Invalid market value");
+		        }
 		        
-		        ////`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
-		        Player newPlayer = new Player(
-		        		name_str, 
-		        		Integer.parseInt(age_str), 
-		        		club_str, 
-		        		nation_str, 
-		        		pos_str.toUpperCase(), 
-		        		Double.parseDouble(value_str)); 
+		        Player newPlayer = new Player(name_str, player_age, club_str, nation_str, pos_str.toUpperCase(), player_value); 
 		        
 				playerlist.add(newPlayer);				
 		        
@@ -177,9 +212,9 @@ public class DataLoader {
 	}
 	
 	public DataLoader() throws Exception {
-		//loadXMLData(new File("premierLeaguePlayerNames.xml"));
+		loadXMLData(new File("premierLeaguePlayerNames.xml"));
 		//addPlayer();
-		//printAllPlayers();
+		printAll();
 		//saveNewXML();
 	}
 

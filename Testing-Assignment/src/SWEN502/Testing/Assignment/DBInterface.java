@@ -95,6 +95,58 @@ public class DBInterface {
 		}
 	}
 	
+	/**
+	 * Check if player is already in database
+	 */
+	public Boolean findPlayerinDB(Player p) {
+		
+		try {
+
+			String player_name = p.getName();
+			int player_age = p.getAge();
+			String player_club = p.getClub();
+			String player_nation = p.getNation();
+			String player_pos = p.getPosition();
+			double player_val = p.getMarketValue();
+
+			Boolean playerFound = false;
+			
+			stmt = con.createStatement();
+
+			String sql = "Select * from players where "
+					+ "players.name='"+player_name+"' and "
+					+ "players.age='"+player_age+"' and "
+					+ "players.club='"+player_club+"' and "
+					+ "players.nationality='"+player_nation+"' and "
+					+ "players.position='"+player_pos+"' and "
+					+ "players.market_value='"+player_val+"';";
+
+			System.out.println(sql + "\n");
+
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if(rs.next()){
+				playerFound = true;
+				System.out.println("Player *" +p.getName() +"* found in database\n");
+			}
+			
+			else if(!playerFound) {
+				System.out.println("Player not found in database\n");
+			}
+			
+			rs.close();
+			stmt.close();
+			
+			return playerFound;
+
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
+	
 	public ArrayList<Player> findPlayersByClub(String clubName){
 		
 		try {
@@ -120,7 +172,6 @@ public class DBInterface {
 				String player_pos = rs.getString("players.position");
 				double player_val = rs.getDouble("players.market_value");
 				
-				////`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
 				foundPlayer = new Player(player_name, player_age, player_club, player_nation, player_pos, player_val);
 				foundPlayers.add(foundPlayer);
 				
@@ -171,7 +222,6 @@ public class DBInterface {
 				String player_pos = rs.getString("players.position");
 				double player_val = rs.getDouble("players.market_value");
 						
-				////`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
 				foundPlayer = new Player(player_name, player_age, player_club, player_nation, player_pos, player_val);
 				foundPlayers.add(foundPlayer);
 				
@@ -202,6 +252,64 @@ public class DBInterface {
 			System.out.println(p.toString());
 		}
 	}
+	
+	//public boolean findPlayerinDB(Player player) {
+		
+		//return false;
+		
+//		String find_name = player.getName();
+//		int find_age = player.getAge();
+//		String find_club = player.getClub();
+//		String find_nation = player.getNation();
+//		String find_pos = player.getPosition();
+//		double find_val = player.getMarketValue();
+//		
+//		try {
+//			//ArrayList<Player> foundPlayers = new ArrayList<>();
+//			stmt = con.createStatement();
+//			String sql = "Select * from players where players.nationality='"+nation+"'";
+//			System.out.println(sql + "\n");
+//			
+//			Boolean playersFound = false;
+//			Player foundPlayer;
+//			
+//			ResultSet rs = stmt.executeQuery(sql);
+//			
+//			while(rs.next()){
+//				playersFound = true;
+//				
+//
+//				int player_id = rs.getInt("players.id");
+//				String player_name = rs.getString("players.name");
+//				int player_age = rs.getInt("players.age");
+//				String player_club = rs.getString("players.club");
+//				String player_nation = rs.getString("players.nationality");
+//				String player_pos = rs.getString("players.position");
+//				double player_val = rs.getDouble("players.market_value");
+//						
+//				//foundPlayer = new Player(player_name, player_age, player_club, player_nation, player_pos, player_val);
+//				//foundPlayers.add(foundPlayer);
+//				
+//			}
+//			
+//			if(!playersFound) {
+//				System.out.println("Player(s) not found in database\n");
+//			}
+//			
+//			rs.close();
+//			stmt.close();
+//			
+//			//return foundPlayers;
+//			
+//		}
+//		
+//		catch(Exception ex) {
+//			ex.printStackTrace();
+//			//return null;
+//		}
+//		
+//		return false;
+//	}
 	
 	/**
 	 * Find player by name
