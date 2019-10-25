@@ -23,7 +23,7 @@ public class RunMe {
 		//dbInterface.findPlayerinDB(myPlayerList.get((int)(Math.random() * 461)));
 		
 		//dbInterface.deleteAllPlayers();
-		dbInterface.saveToDB(myPlayerList);
+		dbInterface.saveAll(myPlayerList);
 		//dbInterface.readDB();
 		dbInterface.closeDB();
 		

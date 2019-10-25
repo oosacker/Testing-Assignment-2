@@ -77,7 +77,9 @@ public class DataLoader {
 		
 	}
 
-	
+	/***
+	 * Save the ArrayList as a new XML file
+	 */
 	public void saveNewXML() {
 		
 		try {
@@ -138,17 +140,180 @@ public class DataLoader {
 		}
 	}
 	
+	/**
+	 * Print all items in the ArrayList
+	 */
 	public void printAll() {
 		for(Player p : playerlist) {
 			System.out.println(p.toString());
 		}
-		System.out.println("Number of players: "+playerlist.size());
+		System.out.println("Number of players: "+playerlist.size()+"\n");
 	}
 	
+	/**
+	 * Search for a player in the ArrayList
+	 */
+	public void filterPlayers() {
+		
+		if(playerlist.isEmpty()) {
+			System.out.println("Player list is empty; cannot search");
+			return;
+		}
+		
+		printAll();
+			
+		Scanner scan = new Scanner(System.in);
+		String input = "";
+		
+		while(true) {
+			
+			System.out.println("Filter player list? (Y/N)");
+			input = scan.nextLine();
+			
+			if(input.equalsIgnoreCase("Y")) {
+				
+				System.out.println("Filter player list by?");
+				System.out.println("0: Name");
+				System.out.println("1: Age");
+				System.out.println("2: Club");
+				System.out.println("3: Nationality");
+				System.out.println("4: Position");
+				System.out.println("5: Market value");
+				input = scan.nextLine();
+				
+				switch(input) {
+				
+					// Name mode
+					case "0":{
+						
+						System.out.println("Name?");
+						input = scan.nextLine();
+						
+						for(Player p : playerlist) {
+							if (p.getName().equalsIgnoreCase(input)) {
+								System.out.println(p.toString());
+							}
+						}
+						
+						break;
+					}
+					
+					// Age mode
+					case "1":{
+						
+						System.out.println("Age?");
+						input = scan.nextLine();
+						int age = -1;	// Default value
+						
+						try {
+							age = Integer.parseInt(input);
+						}
+						catch(NumberFormatException ex) {
+							System.out.println("Invalid input");
+						}
+						
+						for(Player p : playerlist) {
+							if (p.getAge() == age) {
+								System.out.println(p.toString());
+							}
+						}
+						
+						break;
+					}
+					
+					// Club mode
+					case "2":{
+						System.out.println("Club?");
+						input = scan.nextLine();
+						
+						for(Player p : playerlist) {
+							if (p.getClub().equalsIgnoreCase(input)) {
+								System.out.println(p.toString());
+							}
+						}
+						break;
+					}
+					
+					// Nationality mode
+					case "3":{
+						System.out.println("Nationality?");
+						input = scan.nextLine();
+						
+						for(Player p : playerlist) {
+							if (p.getNation().equalsIgnoreCase(input)) {
+								System.out.println(p.toString());
+							}
+						}
+						break;
+					}
+					
+					// Position mode
+					case "4":{
+						System.out.println("Position?");
+						input = scan.nextLine();
+						
+						for(Player p : playerlist) {
+							if (p.getPosition().equalsIgnoreCase(input)) {
+								System.out.println(p.toString());
+							}
+						}
+						break;
+					}
+					
+					// Market value mode
+					case "5":{
+						System.out.println("Market value (£M)?");
+						input = scan.nextLine();
+						double value = 0.0;	// Default value
+						
+						try {
+							value = Double.parseDouble(input);
+						}
+						catch(NumberFormatException ex) {
+							System.out.println("Invalid input");
+						}
+						
+						for(Player p : playerlist) {
+							if (p.getMarketValue() == value) {
+								System.out.println(p.toString());
+							}
+						}
+						break;
+					}
+					
+					default:{
+						System.out.println("Invalid input");
+						break;
+					}
+					
+				}
+				
+				
+			}
+			
+			else if(input.equalsIgnoreCase("N")) {
+				break;
+			}
+			
+			else {
+				System.out.println("Invalid input");
+			}
+		}
+		
+		scan.close();
+		
+	}
+	
+	/**
+	 * Return the ArrayList<Player> to caller
+	 */
 	public ArrayList<Player> getPlayerList(){
 		return this.playerlist;
 	}
 	
+	/**
+	 * Add a new custom player to ArrayList
+	 */
 	public void addPlayer() {
 		Scanner scan = new Scanner(System.in);
 		String input = "";
@@ -214,7 +379,9 @@ public class DataLoader {
 	public DataLoader() throws Exception {
 		loadXMLData(new File("premierLeaguePlayerNames.xml"));
 		//addPlayer();
-		printAll();
+		//printAll();
+		
+		filterPlayers();
 		//saveNewXML();
 	}
 
