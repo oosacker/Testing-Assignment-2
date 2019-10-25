@@ -102,28 +102,51 @@ public class DBInterface {
 		
 		try {
 
-			String player_name = p.getName();
-			int player_age = p.getAge();
-			String player_club = p.getClub();
-			String player_nation = p.getNation();
-			String player_pos = p.getPosition();
-			double player_val = p.getMarketValue();
+//			String player_name = p.getName();
+//			int player_age = p.getAge();
+//			String player_club = p.getClub();
+//			String player_nation = p.getNation();
+//			String player_pos = p.getPosition();
+//			double player_val = p.getMarketValue();
 
 			Boolean playerFound = false;
 			
 			stmt = con.createStatement();
 
+//			String sql = "Select * from players where "
+//					+ "players.name='"+player_name+"' and "
+//					+ "players.age='"+player_age+"' and "
+//					+ "players.club='"+player_club+"' and "
+//					+ "players.nationality='"+player_nation+"' and "
+//					+ "players.position='"+player_pos+"' and "
+//					+ "players.market_value='"+player_val+"';";
+			
 			String sql = "Select * from players where "
-					+ "players.name='"+player_name+"' and "
-					+ "players.age='"+player_age+"' and "
-					+ "players.club='"+player_club+"' and "
-					+ "players.nationality='"+player_nation+"' and "
-					+ "players.position='"+player_pos+"' and "
-					+ "players.market_value='"+player_val+"';";
+			+ "players.name=? and "
+			+ "players.age=? and "
+			+ "players.club=? and "
+			+ "players.nationality=? and "
+			+ "players.position=? and "
+			+ "players.market_value=?;";
 
-			System.out.println(sql + "\n");
+			
+			PreparedStatement prep = con.prepareStatement(sql);
+			
+			
+			prep.setString(1, p.getName());
+			prep.setInt(2, p.getAge());
+			prep.setString(3, p.getClub());
+			prep.setString(4, p.getNation());
+			prep.setString(5, p.getPosition());
+			prep.setDouble(6, p.getMarketValue());
+			
+			ResultSet rs = prep.executeQuery();
+			
+			//ResultSet rs = prep.
+			
+			//System.out.println(sql + "\n");
 
-			ResultSet rs = stmt.executeQuery(sql);
+			//ResultSet rs = stmt.executeQuery(sql);
 			
 			if(rs.next()){
 				playerFound = true;
@@ -377,26 +400,42 @@ public class DBInterface {
 
 		try {
 
+			int count = 0;
+			
 			for(Player p : players) {
 
-				stmt = con.createStatement();
-
-				String query = "INSERT INTO `nats`.`players` (`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
-						+ " values (?, ?, ?, ?, ?, ?)";
-
-				PreparedStatement prep = con.prepareStatement(query);
+				if(!findPlayerinDB(p)) {
+					
+					System.out.println("Player " +p.getName()+ " is not in the database; adding\n");
+					
+					count++;
+					
+					stmt = con.createStatement();
+	
+					String query = "INSERT INTO `nats`.`players` (`name`, `age`, `club`, `nationality`, `position`, `market_value`)"
+							+ " values (?, ?, ?, ?, ?, ?)";
+	
+					PreparedStatement prep = con.prepareStatement(query);
+					
+					prep.setString(1, p.getName());
+					prep.setInt(2, p.getAge());
+					prep.setString(3, p.getClub());
+					prep.setString(4, p.getNation());
+					prep.setString(5, p.getPosition());
+					prep.setDouble(6, p.getMarketValue());
+					prep.execute();
+	
+					stmt.close();
+				}
 				
-				prep.setString(1, p.getName());
-				prep.setInt(2, p.getAge());
-				prep.setString(3, p.getClub());
-				prep.setString(4, p.getNation());
-				prep.setString(5, p.getPosition());
-				prep.setDouble(6, p.getMarketValue());
-				prep.execute();
-
-				stmt.close();
+				else {
+					
+					System.out.println("Player " +p.getName()+ " is already in the database; skipping\n");
+					
+				}
 
 			}
+			System.out.println("Number of players added: "+count);
 
 		}
 

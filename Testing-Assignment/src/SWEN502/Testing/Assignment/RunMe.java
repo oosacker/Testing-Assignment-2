@@ -20,10 +20,10 @@ public class RunMe {
 		dbInterface = new DBInterface();
 		dbInterface.openDB();
 		
-		dbInterface.findPlayerinDB(myPlayerList.get((int)(Math.random() * 461)));
+		//dbInterface.findPlayerinDB(myPlayerList.get((int)(Math.random() * 461)));
 		
 		//dbInterface.deleteAllPlayers();
-		//dbInterface.saveToDB(myPlayerList);
+		dbInterface.saveToDB(myPlayerList);
 		//dbInterface.readDB();
 		dbInterface.closeDB();
 		
