@@ -24,7 +24,12 @@ public class DataLoader {
 	
 	private ArrayList<Player> playerlist;
 
-	public void loadXMLData(File xmlfile) {
+	public void setPlayerList(ArrayList<Player> list) {
+		playerlist = list;
+	}
+	
+	//public void loadXMLData(File xmlfile) {
+	public void loadXMLData(Scanner scan) {
 		
 		// default values
 		String name = "Unknown Player";
@@ -33,10 +38,32 @@ public class DataLoader {
 		double value = 0.0;
 		String pos = "Unknown Position";
 		String nation = "Unknown Nationality";
+		String xmlfile = "premierLeaguePlayerNames.xml";
 		
 		try {
 
-			playerlist = new ArrayList<>();
+			
+			System.out.println("Which xml file to load?");
+			System.out.println("0: Specify your own");
+			System.out.println("1: Load default file (premierLeaguePlayerNames.xml)");
+			String line = scan.nextLine();
+			
+			switch(line) {
+				case("0"):{
+					System.out.println("Which file?");
+					xmlfile = scan.nextLine();
+					break;
+				}
+				case("1"):{
+					System.out.println("Loading premierLeaguePlayerNames.xml");
+					break;
+				}
+				default:{
+					System.out.println("Invalid input");
+					break;
+				}
+			}
+			
 
 			//File xmlfile = new File("premierLeaguePlayerNames.xml");
 
@@ -61,18 +88,19 @@ public class DataLoader {
 				Player newplayer = new Player(name, age, club, nation, pos, value);
 				playerlist.add(newplayer);
 			}
+			System.out.println("Number of players loaded: "+playerlist.size()+"\n");
 		}
-		catch(SAXException e) {
-			System.out.println("sax error");
+		catch(SAXException ex) {
+			System.out.println("SAX error");
 		}
-		catch(IOException e) {
-			System.out.println("io error");
+		catch(IOException ex) {
+			System.out.println("IO error");
 		}
-		catch(ParserConfigurationException e) {
-			System.out.println("parser error");
+		catch(ParserConfigurationException ex) {
+			System.out.println("Parser error");
 		}
 		catch(DOMException ex){
-			System.out.println("dom error");
+			System.out.println("DOM error");
 		}
 		
 	}
@@ -144,6 +172,11 @@ public class DataLoader {
 	 * Print all items in the ArrayList
 	 */
 	public void printAll() {
+		if(playerlist.isEmpty()) {
+			System.out.println("Player list is empty\n");
+			return;
+		}
+			
 		for(Player p : playerlist) {
 			System.out.println(p.toString());
 		}
@@ -153,16 +186,16 @@ public class DataLoader {
 	/**
 	 * Search for a player in the ArrayList
 	 */
-	public void filterPlayers() {
+	public void filterPlayers(Scanner scan) {
 		
 		if(playerlist.isEmpty()) {
-			System.out.println("Player list is empty; cannot search");
+			System.out.println("Player list is empty; cannot filter");
 			return;
 		}
 		
 		printAll();
 			
-		Scanner scan = new Scanner(System.in);
+		//Scanner scan = new Scanner(System.in);
 		String input = "";
 		
 		while(true) {
@@ -299,7 +332,7 @@ public class DataLoader {
 			}
 		}
 		
-		scan.close();
+		//scan.close();
 		
 	}
 	
@@ -313,8 +346,8 @@ public class DataLoader {
 	/**
 	 * Add a new custom player to ArrayList
 	 */
-	public void addPlayer() {
-		Scanner scan = new Scanner(System.in);
+	public void addPlayer(Scanner scan) {
+		//Scanner scan = new Scanner(System.in);
 		String input = "";
 		
 		// default values
@@ -376,11 +409,14 @@ public class DataLoader {
 	}
 	
 	public DataLoader() throws Exception {
-		loadXMLData(new File("premierLeaguePlayerNames.xml"));
+		
+		playerlist = new ArrayList<>();
+		
+		//loadXMLData(new File("premierLeaguePlayerNames.xml"));
 		//addPlayer();
 		//printAll();
 		
-		filterPlayers();
+		//filterPlayers();
 		//saveNewXML();
 	}
 

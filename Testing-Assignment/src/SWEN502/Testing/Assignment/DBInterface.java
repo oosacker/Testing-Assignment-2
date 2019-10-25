@@ -17,7 +17,8 @@ public class DBInterface {
 	private String dbUser = "newuser";	// do not use root!!!!!
 	private String usrPass = "1234";
 	private Statement stmt;
-
+	private ArrayList<Player> playerlist;
+	
 	/**
 	 * Open the DB connection
 	 */
@@ -58,14 +59,30 @@ public class DBInterface {
 			String sql = "Select * from players";
 			ResultSet rs = stmt.executeQuery(sql);
 
+			Player p;
+			playerlist = new ArrayList<>();
+			
 			while(rs.next()){
+				
+				String player_name = rs.getString("players.name");
+				int player_age = rs.getInt("players.age");
+				String player_club = rs.getString("players.club");
+				String player_nation = rs.getString("players.nationality");
+				String player_pos = rs.getString("players.position");
+				double player_val = rs.getDouble("players.market_value");
+				
 				System.out.println("ID: " + rs.getInt("players.id"));
-				System.out.println("Name: " + rs.getString("players.name"));
-				System.out.println("Age: " + rs.getInt("players.age"));
-				System.out.println("Club: " + rs.getString("players.club"));
-				System.out.println("Nation: " + rs.getString("players.nationality"));
-				System.out.println("Position: " + rs.getString("players.position"));
-				System.out.println("Market value: £" + rs.getDouble("players.market_value")+"M\n");
+				System.out.println("Name: " + player_name);
+				System.out.println("Age: " + player_age);
+				System.out.println("Club: " + player_club);
+				System.out.println("Nation: " + player_nation);
+				System.out.println("Position: " + player_pos);
+				System.out.println("Market value: £" + player_val+"M\n");
+				
+				p = new Player(player_name, player_age, player_club, player_nation, player_pos, player_val);
+				if(!playerlist.contains(p))
+					playerlist.add(p);
+				
 			}
 			rs.close();
 			stmt.close();
@@ -74,6 +91,10 @@ public class DBInterface {
 			System.out.println("Error reading from database\n");
 			ex.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Player> getPlayers(){
+		return playerlist;
 	}
 	
 	/**
@@ -127,11 +148,11 @@ public class DBInterface {
 			
 			if(rs.next()){
 				playerFound = true;
-				System.out.println("Player *" +p.getName() +"* found in database\n");
+				//System.out.println("Player \'" +p.getName() +"\' found in database\n");
 			}
 			
 			else if(!playerFound) {
-				System.out.println("Player not found in database\n");
+				//System.out.println("Player \'"+p.getName() +"\' not found in database\n");
 			}
 			
 			rs.close();
@@ -174,7 +195,7 @@ public class DBInterface {
 
 				if(!playerExists(p)) {
 					
-					System.out.println("Player " +p.getName()+ " is not in the database; adding\n");
+					System.out.println("Player \'" +p.getName()+ "\' is not in the database; adding\n");
 					
 					count++;
 					
@@ -198,17 +219,17 @@ public class DBInterface {
 				
 				else {
 					
-					System.out.println("Player " +p.getName()+ " is already in the database; skipping\n");
+					System.out.println("Player \'" +p.getName()+ "\' is already in the database; skipping\n");
 					
 				}
 
 			}
-			System.out.println("Number of players added: "+count);
+			System.out.println("Number of players added: "+count+"\n");
 
 		}
 
 		catch(Exception ex) {
-			System.out.println("Error writing to database");
+			System.out.println("Error writing to database\n");
 			ex.printStackTrace();
 		}
 
@@ -217,7 +238,7 @@ public class DBInterface {
 
 
 	public DBInterface() {
-
+		//playerlist = new ArrayList<>();
 		//openDB();
 
 		//printPlayerList(findPlayersByClub("Arsenal"));
