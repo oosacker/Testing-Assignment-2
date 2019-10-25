@@ -2,28 +2,34 @@ package SWEN502.Testing.Assignment.Tester;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import SWEN502.Testing.Assignment.DataLoader;
 
 class DataLoaderTest {
 
-	@Test
-	void testSetPlayerList() {
-		fail("Not yet implemented");
-	}
+	DataLoader dl = new DataLoader();
+	
 
+	@BeforeAll
+	void init() {
+		
+	}
+	
 	@Test
 	void testLoadXMLData() {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	void testSaveNewXML() {
-		fail("Not yet implemented");
-	}
+//	@Test
+//	void testSaveNewXML() {
+//		fail("Not yet implemented");
+//	}
 
 	@Test
 	void testPrintAll() {
-		fail("Not yet implemented");
+		//assertEquals(i+j, math.add(i, j));
 	}
 
 	@Test
@@ -33,7 +39,7 @@ class DataLoaderTest {
 
 	@Test
 	void testGetPlayerList() {
-		fail("Not yet implemented");
+		assertNotNull(dl.getPlayerList());
 	}
 
 	@Test
@@ -41,14 +47,9 @@ class DataLoaderTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	void testDataLoader() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testMain() {
-		fail("Not yet implemented");
+	@AfterAll
+	void finish() {
+		
 	}
 
 }

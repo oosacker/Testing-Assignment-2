@@ -23,13 +23,13 @@ public class RunMe {
 		while(true) {
 			
 			System.out.println("Select option?");
-			System.out.println("0: Load data into list from xml");
-			System.out.println("1: Display currently loaded players");
-			System.out.println("2: Add a new player to player list");
-			System.out.println("3: Filter player in list by attibute");
-			System.out.println("4: Save current player list to database");
-			System.out.println("5: Delete all players on database");
-			System.out.println("6: Read players from database into list");
+			System.out.println("0: Load data from xml");
+			System.out.println("1: Display loaded data");
+			System.out.println("2: Add a new player to list");
+			System.out.println("3: Filter players by attibute");
+			System.out.println("4: Save current list to database (flush)");
+			System.out.println("5: Delete all data on database (truncate)");
+			System.out.println("6: Read data from database");
 			input = scan.nextLine();
 
 			switch(input) {

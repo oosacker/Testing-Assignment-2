@@ -46,14 +46,6 @@ class DBInterfaceTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	void testDBInterface() {
-		fail("Not yet implemented");
-	}
 
-	@Test
-	void testMain() {
-		fail("Not yet implemented");
-	}
 
 }
