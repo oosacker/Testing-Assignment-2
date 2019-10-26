@@ -10,61 +10,43 @@ public class Player {
 	private double market_value;
 	
 	public Player(String name, int age, String club, String nation, String position, double market_value) {
-		super();
+		
+		if(name == null) {
+			System.out.println("Player name must not be null\n");
+			return;
+		}
+		
 		this.name = name;
-		this.nation = nation;
-		this.club = club;
 		this.age = age;
+		this.club = club;
+		this.nation = nation;
 		this.position = position;
 		this.market_value = market_value;
+
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getNation() {
 		return nation;
 	}
-
-	public void setNation(String nation) {
-		this.nation = nation;
-	}
-
+	
 	public String getClub() {
 		return club;
-	}
-
-	public void setClub(String club) {
-		this.club = club;
 	}
 
 	public int getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
-	}
-
 	public String getPosition() {
 		return position;
 	}
 
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
 	public double getMarketValue() {
 		return market_value;
-	}
-
-	public void setMarketValue(double market_value) {
-		this.market_value = market_value;
 	}
 
 	@Override

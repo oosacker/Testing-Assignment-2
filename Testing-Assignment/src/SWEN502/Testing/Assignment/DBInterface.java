@@ -12,47 +12,48 @@ import java.util.ArrayList;
 
 public class DBInterface {
 
-	private Connection con;
-	private String url = "jdbc:mysql://localhost/nats";
-	private String dbUser = "newuser";	// do not use root!!!!!
-	private String usrPass = "1234";
-	private Statement stmt;
-	private ArrayList<Player> playerlist;
+	private static Connection con;
+	private static Statement stmt;
+	private static ArrayList<Player> playerlist;
 	
 	/**
 	 * Open the DB connection
 	 */
-	public void openDB() {
+	public boolean openDB(String url, String dbUser, String usrPass) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, dbUser, usrPass);
 			System.out.println("Connected to database\n");
+			return true;
 
 		}
 		catch(Exception ex) {
 			System.out.println("Error connecting to database\n");
-			ex.printStackTrace();
+			//ex.printStackTrace();
+			return false;
 		}
 	}
 
 	/**
 	 * Close the DB connection
 	 */
-	public void closeDB() {
+	public boolean closeDB() {
 		try {
 			con.close();
 			System.out.println("Closed connection to database\n");
+			return true;
 		}
 		catch(Exception ex) {
 			System.out.println("Error disconnecting from database\n");
 			ex.printStackTrace();
+			return false;
 		}
 	}
 
 	/**
 	 * Read all players from the DB and print out
 	 */
-	public void readDatabase() {
+	public boolean readDatabase() {
 
 		try {
 			stmt = con.createStatement();
@@ -60,7 +61,7 @@ public class DBInterface {
 			ResultSet rs = stmt.executeQuery(sql);
 
 			Player p;
-			playerlist = new ArrayList<>();
+			//playerlist = new ArrayList<>();
 			
 			while(rs.next()){
 				
@@ -86,10 +87,12 @@ public class DBInterface {
 			}
 			rs.close();
 			stmt.close();
+			return true;
 		}
 		catch(Exception ex) {
 			System.out.println("Error reading from database\n");
 			ex.printStackTrace();
+			return false;
 		}
 	}
 	
@@ -100,7 +103,7 @@ public class DBInterface {
 	/**
 	 * Delete all players from the database
 	 */
-	public void deleteAllPlayers() {
+	public boolean truncatePlayerTable() {
 		
 		try {
 			stmt = con.createStatement();
@@ -109,17 +112,25 @@ public class DBInterface {
 			stmt.close();
 			
 			System.out.println("Players successfully deleted from database\n");
+			return true;
 		}
 		catch(Exception ex) {
 			System.out.println("Error in database\n");
 			ex.printStackTrace();
+			return false;
 		}
+	}
+	
+	public boolean clearPlayerList() {
+		playerlist.clear();
+		System.out.println("DBInterface player list cleared\n");
+		return true;
 	}
 	
 	/**
 	 * Check if player is already in database
 	 */
-	public Boolean playerExists(Player p) {
+	public boolean playerExists(Player p) {
 		
 		try {
 
@@ -168,24 +179,16 @@ public class DBInterface {
 	}
 	
 
-	private void printPlayerList(ArrayList<Player> players) {
+	private int printPlayerList(ArrayList<Player> players) {
 		for(Player p : players) {
 			System.out.println(p.toString());
 		}
 		System.out.println("Number of players in list: "+players.size());
+		return players.size();
 	}
 	
 
-	public void deletePlayer(Player p) {
-		if(!playerExists(p)) {
-			return;
-		}
-		else {
-			//  remove
-		}
-	}
-
-	public Boolean saveAll(ArrayList<Player> players) {
+	public boolean saveAll(ArrayList<Player> players) {
 
 		try {
 
@@ -231,6 +234,7 @@ public class DBInterface {
 		catch(Exception ex) {
 			System.out.println("Error writing to database\n");
 			ex.printStackTrace();
+			return false;
 		}
 
 		return true;
@@ -238,7 +242,12 @@ public class DBInterface {
 
 
 	public DBInterface() {
-		//playerlist = new ArrayList<>();
+		try {
+			playerlist = new ArrayList<>();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		//openDB();
 
 		//printPlayerList(findPlayersByClub("Arsenal"));

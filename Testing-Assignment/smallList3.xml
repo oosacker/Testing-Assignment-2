@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><root>
+  <row>
+    <name>Alexis Sanchez</name>
+    <club>Arsenal</club>
+    <age>28</age>
+    <position>LW</position>
+    <position_cat>1</position_cat>
+    <market_value>65</market_value>
+    <page_views>4329</page_views>
+    <fpl_value>12</fpl_value>
+    <fpl_sel>17.10%</fpl_sel>
+    <fpl_points>264</fpl_points>
+    <region>3</region>
+    <nationality>Chile</nationality>
+    <new_foreign>0</new_foreign>
+    <age_cat>4</age_cat>
+    <club_id>1</club_id>
+    <big_club>1</big_club>
+    <new_signing>0</new_signing>
+  </row>
+  <row>
+    <name>Mesut Ozil</name>
+    <club>Arsenal</club>
+    <age>28</age>
+    <position>AM</position>
+    <position_cat>1</position_cat>
+    <market_value>50</market_value>
+    <page_views>4395</page_views>
+    <fpl_value>9.5</fpl_value>
+    <fpl_sel>5.60%</fpl_sel>
+    <fpl_points>167</fpl_points>
+    <region>2</region>
+    <nationality>Germany</nationality>
+    <new_foreign>0</new_foreign>
+    <age_cat>4</age_cat>
+    <club_id>1</club_id>
+    <big_club>1</big_club>
+    <new_signing>0</new_signing>
+  </row>
+  <row>
+    <name>Petr Cech</name>
+    <club>Arsenal</club>
+    <age>35</age>
+    <position>GK</position>
+    <position_cat>4</position_cat>
+    <market_value>7</market_value>
+    <page_views>1529</page_views>
+    <fpl_value>5.5</fpl_value>
+    <fpl_sel>5.90%</fpl_sel>
+    <fpl_points>134</fpl_points>
+    <region>2</region>
+    <nationality>Czech Republic</nationality>
+    <new_foreign>0</new_foreign>
+    <age_cat>6</age_cat>
+    <club_id>1</club_id>
+    <big_club>1</big_club>
+    <new_signing>0</new_signing>
+  </row>
+</root>

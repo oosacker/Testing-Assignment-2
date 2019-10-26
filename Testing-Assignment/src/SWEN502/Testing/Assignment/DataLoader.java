@@ -22,15 +22,22 @@ import java.util.Scanner;
 
 public class DataLoader {
 	
-	private ArrayList<Player> playerlist;
+	private static ArrayList<Player> playerlist;
 
 	public void setPlayerList(ArrayList<Player> list) {
 		playerlist = list;
 	}
 	
+	public void clearPlayerList() {
+		playerlist.clear();
+		System.out.println("DataLoader player list cleared\n");
+	}
 	
-	public void loadXMLData(Scanner scan) {
+	
+	public int loadXMLData(String xmlfile) {
 
+		playerlist = new ArrayList<>();
+		
 		// default values
 		String name = "Unknown Player";
 		String club = "Unknown Club";
@@ -38,33 +45,7 @@ public class DataLoader {
 		double value = 0.0;
 		String pos = "Unknown Position";
 		String nation = "Unknown Nationality";
-		String xmlfile = "premierLeaguePlayerNames.xml";
-
-
-		System.out.println("Which xml file to load?");
-		System.out.println("0: Specify your own");
-		System.out.println("1: Load default file (premierLeaguePlayerNames.xml)");
-		String line = scan.nextLine();
-
-		switch(line) {
-
-			case("0"):{
-				System.out.println("Which file?");
-				xmlfile = scan.nextLine();
-				break;
-			}
-			case("1"):{
-				// Load the default file (premierLeaguePlayerNames.xml)
-				break;
-			}
-			default:{
-				System.out.println("Invalid input");
-				break;
-			}
-		}
-
-		System.out.println("Loading " +xmlfile+ "\n");
-
+		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = null;
 		Document doc =  null;
@@ -76,8 +57,8 @@ public class DataLoader {
 			db = dbf.newDocumentBuilder();
 		}
 		catch(ParserConfigurationException ex) {
-			System.out.println("ParserConfigurationException");
-			return;
+			System.out.println("ParserConfigurationException\n");
+			return -1;
 		}
 
 
@@ -89,16 +70,16 @@ public class DataLoader {
 			doc = db.parse(xmlfile);
 		} 
 		catch(SAXException ex) {
-			System.out.println("SAX error: xml file may be corrupt");
-			return;
+			System.out.println("SAX error: xml file may be corrupt\n");
+			return -1;
 		} 
 		catch(IOException ex) {
-			System.out.println("IO error: xml file may be missing");
-			return;
+			System.out.println("IO error: xml file may be missing\n");
+			return -1;
 		} 
 		catch(IllegalArgumentException ex) {
-			System.out.println("IllegalArgumentException: invalid arguement to parse");
-			return;
+			System.out.println("IllegalArgumentException: invalid arguement to parse\n");
+			return -1;
 		}
 
 
@@ -183,8 +164,11 @@ public class DataLoader {
 			Player newplayer = new Player(name, age, club, nation, pos, value);
 			playerlist.add(newplayer);
 		}
+		
+		
 		System.out.println("Number of players loaded: "+playerlist.size()+"\n");
 
+		return playerlist.size();
 
 	}
 
@@ -246,7 +230,7 @@ public class DataLoader {
 			transformer.transform(domSource, streamResult);
 		}
 		catch(Exception ex) {
-			System.out.println("Error saving new XML file");
+			System.out.println("Error saving new XML file\n");
 			ex.printStackTrace();
 		}
 	}
@@ -272,7 +256,7 @@ public class DataLoader {
 	public void filterPlayers(Scanner scan) {
 		
 		if(playerlist.isEmpty()) {
-			System.out.println("Player list is empty; cannot filter");
+			System.out.println("Player list is empty; cannot filter\n");
 			return;
 		}
 		
@@ -280,6 +264,7 @@ public class DataLoader {
 			
 		//Scanner scan = new Scanner(System.in);
 		String input = "";
+		int count = 0;
 		
 		while(true) {
 			
@@ -308,9 +293,11 @@ public class DataLoader {
 						for(Player p : playerlist) {
 							if (p.getName().equalsIgnoreCase(input)) {
 								System.out.println(p.toString());
+								count++;
 							}
 						}
-						
+						System.out.println("Number of players found: "+count+"\n");
+						count = 0;
 						break;
 					}
 					
@@ -331,9 +318,11 @@ public class DataLoader {
 						for(Player p : playerlist) {
 							if (p.getAge() == age) {
 								System.out.println(p.toString());
+								count++;
 							}
 						}
-						
+						System.out.println("Number of players found: "+count+"\n");
+						count = 0;
 						break;
 					}
 					
@@ -345,8 +334,11 @@ public class DataLoader {
 						for(Player p : playerlist) {
 							if (p.getClub().equalsIgnoreCase(input)) {
 								System.out.println(p.toString());
+								count++;
 							}
 						}
+						System.out.println("Number of players found: "+count+"\n");
+						count = 0;
 						break;
 					}
 					
@@ -358,8 +350,11 @@ public class DataLoader {
 						for(Player p : playerlist) {
 							if (p.getNation().equalsIgnoreCase(input)) {
 								System.out.println(p.toString());
+								count++;
 							}
 						}
+						System.out.println("Number of players found: "+count+"\n");
+						count = 0;
 						break;
 					}
 					
@@ -371,8 +366,11 @@ public class DataLoader {
 						for(Player p : playerlist) {
 							if (p.getPosition().equalsIgnoreCase(input)) {
 								System.out.println(p.toString());
+								count++;
 							}
 						}
+						System.out.println("Number of players found: "+count+"\n");
+						count = 0;
 						break;
 					}
 					
@@ -392,8 +390,11 @@ public class DataLoader {
 						for(Player p : playerlist) {
 							if (p.getMarketValue() == value) {
 								System.out.println(p.toString());
+								count++;
 							}
 						}
+						System.out.println("Number of players found: "+count+"\n");
+						count = 0;
 						break;
 					}
 					
@@ -423,7 +424,7 @@ public class DataLoader {
 	 * Return the ArrayList<Player> to caller
 	 */
 	public ArrayList<Player> getPlayerList(){
-		return this.playerlist;
+		return playerlist;
 	}
 	
 	/**

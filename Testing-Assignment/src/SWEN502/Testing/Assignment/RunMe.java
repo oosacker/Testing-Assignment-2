@@ -11,10 +11,16 @@ public class RunMe {
 	private DBInterface dbInterface;
 	private ArrayList<Player> myPlayerList;
 	
+	private String url = "jdbc:mysql://localhost/nats";
+	private String dbUser = "newuser";	// do not use root!!!!!
+	private String usrPass = "1234";
+	
 	public RunMe() throws Exception {
 		
 		Scanner scan = new Scanner(System.in);
 		String input = "";
+		
+		String xmlfile = "premierLeaguePlayerNames.xml";
 		
 		dataLoader = new DataLoader();
 		dbInterface = new DBInterface();
@@ -30,6 +36,7 @@ public class RunMe {
 			System.out.println("4: Save current list to database (flush)");
 			System.out.println("5: Delete all data on database (truncate)");
 			System.out.println("6: Read data from database");
+			System.out.println("7: Reset local player lists");
 			input = scan.nextLine();
 
 			switch(input) {
@@ -37,7 +44,32 @@ public class RunMe {
 				case "0":{
 					//dataLoader.loadXMLData(new File("premierLeaguePlayerNames.xml"));
 					
-					dataLoader.loadXMLData(scan);
+					System.out.println("Which xml file to load?");
+					System.out.println("0: Specify your own");
+					System.out.println("1: Load default file (premierLeaguePlayerNames.xml)");
+					String line = scan.nextLine();
+
+					switch(line) {
+
+						case("0"):{
+							System.out.println("Which file?");
+							xmlfile = scan.nextLine();
+							break;
+						}
+						case("1"):{
+							xmlfile = "premierLeaguePlayerNames.xml";
+							break;
+						}
+						default:{
+							System.out.println("Invalid input\n");
+							break;
+						}
+					}
+
+					System.out.println("Loading " +xmlfile+ "\n");
+		
+					dataLoader.loadXMLData(xmlfile);
+					
 					myPlayerList = dataLoader.getPlayerList();
 					break;
 				}
@@ -59,25 +91,31 @@ public class RunMe {
 	
 				case "4":{
 					myPlayerList = dataLoader.getPlayerList();
-					dbInterface.openDB();
+					dbInterface.openDB(url, dbUser, usrPass);
 					dbInterface.saveAll(myPlayerList);
 					dbInterface.closeDB();
 					break;
 				}
 	
 				case "5":{
-					dbInterface.openDB();
-					dbInterface.deleteAllPlayers();
+					dbInterface.openDB(url, dbUser, usrPass);
+					dbInterface.truncatePlayerTable();
 					dbInterface.closeDB();
 					break;
 				}
 	
 				case "6":{
-					dbInterface.openDB();
+					dbInterface.openDB(url, dbUser, usrPass);
 					dbInterface.readDatabase();
 					dataLoader.setPlayerList(dbInterface.getPlayers());
 					dbInterface.closeDB();
 					break;
+				}
+				
+				case "7":{
+					dbInterface.clearPlayerList();
+					dataLoader.clearPlayerList();
+					myPlayerList.clear();
 				}
 	
 				default:{
