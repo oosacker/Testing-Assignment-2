@@ -24,43 +24,53 @@ class DataLoaderTest {
 	private ArrayList<Player> playerlist = new ArrayList<>();
 	
 	public int expectedNum;
-	public String inputXMLFile;
+	public String XMLFile;
 	
 	@BeforeEach
 	void init() {
 		dl = new DataLoader();
 	}
 	
-	@Parameters
-	static Collection<Object[]> XMLFiles(){
-		System.out.println("Generate XML test cases");
+	@Parameters (name = "{index}: loadXMLData({0}) = {1}")
+	static Collection<Object[]> goodXMLFiles(){
+		System.out.println("Generating test cases with valid xml files\n");
 		return Arrays.asList(new Object[][] {
-			{ "premierLeaguePlayerNames.xml", 461 },
 			{ "smallList3.xml", 3 },
 			{ "smallList5.xml", 5 },
 		});
 	}
 	
 	@ParameterizedTest
-	@MethodSource("XMLFiles")
-	void testLoadXMLData(String inputXMLFile, int expectedNum ) {
-		assertEquals(expectedNum, dl.loadXMLData(inputXMLFile));
+	@MethodSource("goodXMLFiles")
+	void testLoadValidXMLData(String XMLFile, int expectedNum ) {
+		assertEquals(expectedNum, dl.loadXMLData(XMLFile));
+	}
+	
+	@Parameters (name = "{index}: loadXMLData({0}) = {1}")
+	static Collection<Object[]> badXMLFiles(){
+		System.out.println("Generating test cases with invalid xml files\n");
+		return Arrays.asList(new Object[][] {
+			{ "badXMLFile1.xml", 1 },
+			{ "badXMLFile2.xml", 4 },
+		});
+	}
+	
+	@ParameterizedTest
+	@MethodSource("badXMLFiles")
+	void testLoadInvalidXMLData(String XMLFile, int expectedNum ) {
+		assertEquals(expectedNum, dl.loadXMLData(XMLFile));
 	}
 
-//	@Test
-//	void testSaveNewXML() {
-//		fail("Not yet implemented");
-//	}
 
 //	@Test
 //	void testPrintAll() {
 //		fail("Not yet implemented");
 //	}
 //
-//	@Test
-//	void testFilterPlayers() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	void testFilterPlayers() {
+		fail("Not yet implemented");
+	}
 //
 //	@Test
 //	void testGetPlayerList() {

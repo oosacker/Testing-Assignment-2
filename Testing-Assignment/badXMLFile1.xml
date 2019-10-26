@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><root>
+  <row>
+    <nameee>Alexis Sanchez</nameee>
+    <club>Arsenal</club>
+    <age>28</age>
+    <positionnn>LW</positionnn>
+    <position_cat>1</position_cat>
+    <market_value>65</market_value>
+    <page_views>4329</page_views>
+    <fpl_value>12</fpl_value>
+    <fpl_sel>17.10%</fpl_sel>
+    <fpl_points>264</fpl_points>
+    <region>3</region>
+    <nationality>Chile</nationality>
+    <new_foreign>0</new_foreign>
+    <age_cat>4</age_cat>
+    <club_id>1</club_id>
+    <big_club>1</big_club>
+    <new_signing>0</new_signing>
+  </row>
+</root>

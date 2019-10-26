@@ -35,17 +35,15 @@ public class DataLoader {
 	
 	
 	public int loadXMLData(String xmlfile) {
-
+	//public int loadXMLData(Scanner scan) {
+		
 		playerlist = new ArrayList<>();
 		
-		// default values
-		String name = "Unknown Player";
-		String club = "Unknown Club";
-		int age = 0;
-		double value = 0.0;
-		String pos = "Unknown Position";
-		String nation = "Unknown Nationality";
 		
+
+		System.out.println("Loading " +xmlfile+ "\n");
+		
+
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = null;
 		Document doc =  null;
@@ -86,6 +84,15 @@ public class DataLoader {
 		NodeList mylist = doc.getElementsByTagName("row");
 		for(int i=0; i<mylist.getLength(); i++) {
 
+			// default values
+			String name = "Unknown Player";
+			String club = "Unknown Club";
+			int age = 0;
+			double value = 0.0;
+			String pos = "Unknown Position";
+			String nation = "Unknown Nationality";
+			
+			
 			Node n = mylist.item(i);
 			Element e = (Element)n;
 

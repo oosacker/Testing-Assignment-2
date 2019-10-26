@@ -1,9 +1,7 @@
 package SWEN502.Testing.Assignment;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
-import ecs100.*;
 
 public class RunMe {
 
@@ -42,13 +40,17 @@ public class RunMe {
 			switch(input) {
 
 				case "0":{
-					//dataLoader.loadXMLData(new File("premierLeaguePlayerNames.xml"));
+					//dataLoader.loadXMLData(scan);
+					
+					
 					
 					System.out.println("Which xml file to load?");
 					System.out.println("0: Specify your own");
 					System.out.println("1: Load default file (premierLeaguePlayerNames.xml)");
 					String line = scan.nextLine();
 
+					//String xmlfile = "premierLeaguePlayerNames.xml";
+					
 					switch(line) {
 
 						case("0"):{
@@ -57,7 +59,7 @@ public class RunMe {
 							break;
 						}
 						case("1"):{
-							xmlfile = "premierLeaguePlayerNames.xml";
+							// Load the default file (premierLeaguePlayerNames.xml)
 							break;
 						}
 						default:{
@@ -65,9 +67,7 @@ public class RunMe {
 							break;
 						}
 					}
-
-					System.out.println("Loading " +xmlfile+ "\n");
-		
+					
 					dataLoader.loadXMLData(xmlfile);
 					
 					myPlayerList = dataLoader.getPlayerList();
