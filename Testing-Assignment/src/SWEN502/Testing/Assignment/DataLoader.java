@@ -37,12 +37,15 @@ public class DataLoader {
 	public int loadXMLData(String xmlfile) {
 	//public int loadXMLData(Scanner scan) {
 		
+		
+		if( xmlfile == null || xmlfile.equals("") ) {
+			System.out.println("Invalid file\n");
+			return -1;
+		}
+		
 		playerlist = new ArrayList<>();
-		
-		
 
-		System.out.println("Loading " +xmlfile+ "\n");
-		
+		System.out.println("Loading \'" +xmlfile+ "\'...\n");
 
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = null;
@@ -183,6 +186,7 @@ public class DataLoader {
 	 * Print all items in the ArrayList
 	 */
 	public void printAll() {
+		
 		if(playerlist.isEmpty()) {
 			System.out.println("Player list is empty\n");
 			return;

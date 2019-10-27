@@ -85,11 +85,14 @@ public class DBInterface {
 				if(!playerlist.contains(p))
 					playerlist.add(p);
 				
+				
 				count++;
+				
 				
 			}
 			rs.close();
 			stmt.close();
+			System.out.println("Fetched " +count + " players from database\n");
 			return count;
 		}
 		catch(Exception ex) {
@@ -183,6 +186,12 @@ public class DBInterface {
 	
 
 	public int printPlayerList(ArrayList<Player> players) {
+		
+		if(players.isEmpty()) {
+			System.out.println("Player list is empty\n");
+			return 0;
+		}
+		
 		for(Player p : players) {
 			System.out.println(p.toString());
 		}

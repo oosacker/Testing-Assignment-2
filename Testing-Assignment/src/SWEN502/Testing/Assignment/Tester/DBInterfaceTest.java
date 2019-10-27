@@ -38,6 +38,8 @@ class DBInterfaceTest {
 	@Test
 	void testOpenDB() {
 		assertFalse(dbi.openDB("test", "test", "test"));	// invalid login details should fail
+		assertFalse(dbi.openDB("", "", ""));	// invalid login details should fail
+		assertFalse(dbi.openDB(null, null, null));	// invalid login details should fail
 		assertTrue(dbi.openDB("jdbc:mysql://localhost/nats", "newuser", "1234"));
 		assertTrue(dbi.closeDB());
 	}
@@ -87,7 +89,8 @@ class DBInterfaceTest {
 			{ new Player("Alexis Sanchez", 28, "Arsenal", "Chile", "LW", 65.0), true },
 			{ new Player("", 0, "", "", "", 0.0), false },
 			{ new Player("Homer Simpson", 40, "Springfield Nuclear Power Plant", "USA", "Dad", -100), false },
-			{ new Player("Lewis Cook", 20, "Bournemouth", "England", "CM", 6), true}
+			{ new Player("Lewis Cook", 20, "Bournemouth", "England", "CM", 6), true},
+			{ new Player(null, -1, null, null, null, -1), false}
 		});
 	}
 	
