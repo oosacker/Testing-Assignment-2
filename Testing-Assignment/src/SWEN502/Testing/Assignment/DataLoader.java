@@ -178,69 +178,6 @@ public class DataLoader {
 		return playerlist.size();
 
 	}
-
-	/***
-	 * Save the ArrayList as a new XML file
-	 */
-	public void saveNewXML() {
-		
-		try {
-			DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = df.newDocumentBuilder();
-
-			Document doc = db.newDocument();
-
-			Element root = doc.createElement("root");
-			doc.appendChild(root);
-
-			Element row = doc.createElement("row");
-			root.appendChild(row);
-
-			for(Player p : playerlist) {
-
-				Element playerName = doc.createElement("name");
-				playerName.appendChild(doc.createTextNode( p.getName()) );
-				root.appendChild(playerName);
-
-
-				Element playerClub = doc.createElement("club");
-				playerClub.appendChild(doc.createTextNode( p.getClub()) );
-				root.appendChild(playerClub);
-
-				Element playerAge = doc.createElement("age");
-				playerAge.appendChild(doc.createTextNode( Integer.toString(p.getAge())) );
-				root.appendChild(playerAge);
-
-				Element playerPos = doc.createElement("position");
-				playerPos.appendChild(doc.createTextNode( p.getPosition()) );
-				root.appendChild(playerAge);
-
-				Element playerMarketVal = doc.createElement("market_value");
-				playerMarketVal.appendChild(doc.createTextNode( Double.toString(p.getMarketValue())) );
-				root.appendChild(playerMarketVal);
-
-				Element playerNation = doc.createElement("nationality");
-				playerNation.appendChild(doc.createTextNode( p.getNation()) );
-				root.appendChild(playerNation);
-
-			}
-
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-
-			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-			DOMSource domSource = new DOMSource(doc);
-			StreamResult streamResult = new StreamResult(new File("myPlayerList.xml"));
-
-			transformer.transform(domSource, streamResult);
-		}
-		catch(Exception ex) {
-			System.out.println("Error saving new XML file\n");
-			ex.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Print all items in the ArrayList
@@ -257,175 +194,121 @@ public class DataLoader {
 		System.out.println("Number of players: "+playerlist.size()+"\n");
 	}
 	
+	
+	
 	/**
-	 * Search for a player in the ArrayList
+	 * Helper methods for the filtering
 	 */
-	public void filterPlayers(Scanner scan) {
+	public int findByName(String input) {
 		
 		if(playerlist.isEmpty()) {
-			System.out.println("Player list is empty; cannot filter\n");
-			return;
+			System.out.println("Player list is empty; nothing to filter");
+			return -1;
 		}
 		
-		printAll();
-			
-		//Scanner scan = new Scanner(System.in);
-		String input = "";
 		int count = 0;
-		
-		while(true) {
-			
-			System.out.println("Filter player list? (Y/N)");
-			input = scan.nextLine();
-			
-			if(input.equalsIgnoreCase("Y")) {
-				
-				System.out.println("Filter player list by?");
-				System.out.println("0: Name");
-				System.out.println("1: Age");
-				System.out.println("2: Club");
-				System.out.println("3: Nationality");
-				System.out.println("4: Position");
-				System.out.println("5: Market value");
-				input = scan.nextLine();
-				
-				switch(input) {
-				
-					// Name mode
-					case "0":{
-						
-						System.out.println("Name?");
-						input = scan.nextLine();
-						
-						for(Player p : playerlist) {
-							if (p.getName().equalsIgnoreCase(input)) {
-								System.out.println(p.toString());
-								count++;
-							}
-						}
-						System.out.println("Number of players found: "+count+"\n");
-						count = 0;
-						break;
-					}
-					
-					// Age mode
-					case "1":{
-						
-						System.out.println("Age?");
-						input = scan.nextLine();
-						int age = -1;	// Default value
-						
-						try {
-							age = Integer.parseInt(input);
-						}
-						catch(NumberFormatException ex) {
-							System.out.println("Invalid input");
-						}
-						
-						for(Player p : playerlist) {
-							if (p.getAge() == age) {
-								System.out.println(p.toString());
-								count++;
-							}
-						}
-						System.out.println("Number of players found: "+count+"\n");
-						count = 0;
-						break;
-					}
-					
-					// Club mode
-					case "2":{
-						System.out.println("Club?");
-						input = scan.nextLine();
-						
-						for(Player p : playerlist) {
-							if (p.getClub().equalsIgnoreCase(input)) {
-								System.out.println(p.toString());
-								count++;
-							}
-						}
-						System.out.println("Number of players found: "+count+"\n");
-						count = 0;
-						break;
-					}
-					
-					// Nationality mode
-					case "3":{
-						System.out.println("Nationality?");
-						input = scan.nextLine();
-						
-						for(Player p : playerlist) {
-							if (p.getNation().equalsIgnoreCase(input)) {
-								System.out.println(p.toString());
-								count++;
-							}
-						}
-						System.out.println("Number of players found: "+count+"\n");
-						count = 0;
-						break;
-					}
-					
-					// Position mode
-					case "4":{
-						System.out.println("Position?");
-						input = scan.nextLine();
-						
-						for(Player p : playerlist) {
-							if (p.getPosition().equalsIgnoreCase(input)) {
-								System.out.println(p.toString());
-								count++;
-							}
-						}
-						System.out.println("Number of players found: "+count+"\n");
-						count = 0;
-						break;
-					}
-					
-					// Market value mode
-					case "5":{
-						System.out.println("Market value (£M)?");
-						input = scan.nextLine();
-						double value = 0.0;	// Default value
-						
-						try {
-							value = Double.parseDouble(input);
-						}
-						catch(NumberFormatException ex) {
-							System.out.println("Invalid input");
-						}
-						
-						for(Player p : playerlist) {
-							if (p.getMarketValue() == value) {
-								System.out.println(p.toString());
-								count++;
-							}
-						}
-						System.out.println("Number of players found: "+count+"\n");
-						count = 0;
-						break;
-					}
-					
-					default:{
-						System.out.println("Invalid input");
-						break;
-					}
-					
-				}
-
-			}
-			
-			else if(input.equalsIgnoreCase("N")) {
-				break;
-			}
-			
-			else {
-				System.out.println("Invalid input");
+		for(Player p : playerlist) {
+			if (p.getName().equalsIgnoreCase(input)) {
+				System.out.println(p.toString());
+				count++;
 			}
 		}
-		
-		//scan.close();
-		
+		System.out.println("Number of players found: "+count+"\n");
+		return count;
 	}
+	
+	public int findByAge(int age) {
+		
+		if(playerlist.isEmpty()) {
+			System.out.println("Player list is empty; nothing to filter");
+			return -1;
+		}
+		
+		int count = 0;
+		for(Player p : playerlist) {
+			if (p.getAge() == age) {
+				System.out.println(p.toString());
+				count++;
+			}
+		}
+		System.out.println("Number of players found: "+count+"\n");
+		return count;
+	}
+	
+	public int findByClub(String input) {
+		
+		if(playerlist.isEmpty()) {
+			System.out.println("Player list is empty; nothing to filter");
+			return -1;
+		}
+		
+		int count = 0;
+		for(Player p : playerlist) {
+			if (p.getClub().equalsIgnoreCase(input)) {
+				System.out.println(p.toString());
+				count++;
+			}
+		}
+		System.out.println("Number of players found: "+count+"\n");
+		return count;
+	}
+	
+	public int findByNation(String input) {
+		
+		if(playerlist.isEmpty()) {
+			System.out.println("Player list is empty; nothing to filter");
+			return -1;
+		}
+		
+		int count = 0;
+		for(Player p : playerlist) {
+			if (p.getNation().equalsIgnoreCase(input)) {
+				System.out.println(p.toString());
+				count++;
+			}
+		}
+		System.out.println("Number of players found: "+count+"\n");
+		return count;
+	}
+	
+	public int findByPosition(String input) {
+		
+		if(playerlist.isEmpty()) {
+			System.out.println("Player list is empty; nothing to filter");
+			return -1;
+		}
+		
+		int count = 0;
+		for(Player p : playerlist) {
+			if (p.getPosition().equalsIgnoreCase(input)) {
+				System.out.println(p.toString());
+				count++;
+			}
+		}
+		System.out.println("Number of players found: "+count+"\n");
+		return count;
+	}
+	
+	public int findByMarketVal(double value) {
+		
+		if(playerlist.isEmpty()) {
+			System.out.println("Player list is empty; nothing to filter");
+			return -1;
+		}
+		
+		int count = 0;
+		for(Player p : playerlist) {
+			if (p.getMarketValue() == value) {
+				System.out.println(p.toString());
+				count++;
+			}
+		}
+		System.out.println("Number of players found: "+count+"\n");
+		return count;
+	}
+	
+	
+
 	
 	/**
 	 * Return the ArrayList<Player> to caller

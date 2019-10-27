@@ -53,12 +53,13 @@ public class DBInterface {
 	/**
 	 * Read all players from the DB and print out
 	 */
-	public boolean readDatabase() {
+	public int readDatabase() {
 
 		try {
 			stmt = con.createStatement();
 			String sql = "Select * from players";
 			ResultSet rs = stmt.executeQuery(sql);
+			int count = 0;
 
 			Player p;
 			//playerlist = new ArrayList<>();
@@ -72,27 +73,29 @@ public class DBInterface {
 				String player_pos = rs.getString("players.position");
 				double player_val = rs.getDouble("players.market_value");
 				
-				System.out.println("ID: " + rs.getInt("players.id"));
-				System.out.println("Name: " + player_name);
-				System.out.println("Age: " + player_age);
-				System.out.println("Club: " + player_club);
-				System.out.println("Nation: " + player_nation);
-				System.out.println("Position: " + player_pos);
-				System.out.println("Market value: £" + player_val+"M\n");
+//				System.out.println("ID: " + rs.getInt("players.id"));
+//				System.out.println("Name: " + player_name);
+//				System.out.println("Age: " + player_age);
+//				System.out.println("Club: " + player_club);
+//				System.out.println("Nation: " + player_nation);
+//				System.out.println("Position: " + player_pos);
+//				System.out.println("Market value: £" + player_val+"M\n");
 				
 				p = new Player(player_name, player_age, player_club, player_nation, player_pos, player_val);
 				if(!playerlist.contains(p))
 					playerlist.add(p);
 				
+				count++;
+				
 			}
 			rs.close();
 			stmt.close();
-			return true;
+			return count;
 		}
 		catch(Exception ex) {
 			System.out.println("Error reading from database\n");
 			ex.printStackTrace();
-			return false;
+			return -1;
 		}
 	}
 	
@@ -179,7 +182,7 @@ public class DBInterface {
 	}
 	
 
-	private int printPlayerList(ArrayList<Player> players) {
+	public int printPlayerList(ArrayList<Player> players) {
 		for(Player p : players) {
 			System.out.println(p.toString());
 		}
@@ -188,7 +191,7 @@ public class DBInterface {
 	}
 	
 
-	public boolean saveAll(ArrayList<Player> players) {
+	public int saveAll(ArrayList<Player> players) {
 
 		try {
 
@@ -228,16 +231,17 @@ public class DBInterface {
 
 			}
 			System.out.println("Number of players added: "+count+"\n");
+			return count;
 
 		}
 
 		catch(Exception ex) {
 			System.out.println("Error writing to database\n");
 			ex.printStackTrace();
-			return false;
+			return -1;
 		}
 
-		return true;
+		
 	}
 
 
