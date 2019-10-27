@@ -134,7 +134,7 @@ public class DBInterface {
 	}
 	
 	/**
-	 * Check if player is already in database
+	 * Check if player is already in database to check for duplicates
 	 */
 	public boolean playerExists(Player p) {
 		
