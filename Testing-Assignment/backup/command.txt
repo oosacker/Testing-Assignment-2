@@ -1,0 +1,1 @@
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump.exe --user=root --password=barstard --host=localhost --port=3306 --result-file="c:\backup\nats.players.sql" --databases "nats"
