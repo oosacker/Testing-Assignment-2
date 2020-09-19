@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 
-
 public class DBInterface {
 
 	private static Connection con;
@@ -286,8 +285,8 @@ public class DBInterface {
 
 	}
 	
-	public static void main(String[] args) {
-		new DBInterface();
-	}
+//	public static void main(String[] args) {
+//		new DBInterface();
+//	}
 
 } 

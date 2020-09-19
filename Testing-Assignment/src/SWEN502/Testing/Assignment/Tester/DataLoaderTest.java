@@ -1,21 +1,15 @@
 package SWEN502.Testing.Assignment.Tester;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-//import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runners.Parameterized.Parameters;
-
 import SWEN502.Testing.Assignment.DataLoader;
-//import SWEN502.Testing.Assignment.Player;
-import SWEN502.Testing.Assignment.Player;
+
 
 class DataLoaderTest {
 	

@@ -30,7 +30,7 @@ public class RunMe {
 			System.out.println("1: Display loaded data");
 			System.out.println("2: Filter players by attibute");
 			System.out.println("3: Save current list to database");
-			System.out.println("4: Quit");
+			System.out.println("4: Quit\n");
 			input = scan.nextLine();
 
 			first_switch_statement:
@@ -43,7 +43,7 @@ public class RunMe {
 					
 					System.out.println("Which xml file to load?");
 					System.out.println("0: Specify your own");
-					System.out.println("1: Load default file (premierLeaguePlayerNames.xml)");
+					System.out.println("1: Load default file (premierLeaguePlayerNames.xml)\n");
 					String line = scan.nextLine();
 					
 					
@@ -99,7 +99,7 @@ public class RunMe {
 						System.out.println("3: Nationality");
 						System.out.println("4: Position");
 						System.out.println("5: Market value");
-						System.out.println("6: Cancel");
+						System.out.println("6: Cancel\n");
 						input = scan.nextLine();
 	
 						switch(input) {
@@ -109,6 +109,12 @@ public class RunMe {
 		
 								System.out.println("Name?");
 								input = scan.nextLine();
+								
+								if(input.equals("")) {
+									System.out.println("Invalid input\n");
+									break;
+								}
+								
 								dataLoader.findByName(input);
 		
 								break;
@@ -119,13 +125,19 @@ public class RunMe {
 		
 								System.out.println("Age?");
 								input = scan.nextLine();
+								
+								if(input.equals("")) {
+									System.out.println("Invalid input\n");
+									break;
+								}
+								
 								int age = -1;	// Default value
 		
 								try {
 									age = Integer.parseInt(input);
 								}
 								catch(NumberFormatException ex) {
-									System.out.println("Invalid input");
+									System.out.println("Invalid input\n");
 								}
 		
 								dataLoader.findByAge(age);
@@ -137,6 +149,12 @@ public class RunMe {
 							case "2":{
 								System.out.println("Club?");
 								input = scan.nextLine();
+								
+								if(input.equals("")) {
+									System.out.println("Invalid input\n");
+									break;
+								}
+								
 								dataLoader.findByClub(input);
 								break;
 							}
@@ -145,6 +163,12 @@ public class RunMe {
 							case "3":{
 								System.out.println("Nationality?");
 								input = scan.nextLine();
+								
+								if(input.equals("")) {
+									System.out.println("Invalid input\n");
+									break;
+								}
+								
 								dataLoader.findByNation(input);
 								break;
 							}
@@ -153,6 +177,12 @@ public class RunMe {
 							case "4":{
 								System.out.println("Position?");
 								input = scan.nextLine();
+								
+								if(input.equals("")) {
+									System.out.println("Invalid input\n");
+									break;
+								}
+								
 								dataLoader.findByPosition(input);
 								break;
 							}
@@ -161,6 +191,12 @@ public class RunMe {
 							case "5":{
 								System.out.println("Market value (£M)?");
 								input = scan.nextLine();
+								
+								if(input.equals("")) {
+									System.out.println("Invalid input\n");
+									break;
+								}
+								
 								double value = 0.0;	// Default value
 		
 								try {
@@ -205,6 +241,7 @@ public class RunMe {
 	
 
 				case "4":{
+					System.out.println("Quit\n");
 					return;
 				}
 	
@@ -238,6 +275,7 @@ public class RunMe {
 				*/
 				
 				default:{
+					System.out.println("Invalid input\n");
 					break;
 				}
 
